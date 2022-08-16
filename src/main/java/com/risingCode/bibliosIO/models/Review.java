@@ -1,7 +1,6 @@
 package com.risingCode.bibliosIO.models;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
