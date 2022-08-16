@@ -30,7 +30,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 20)
     private String userName;
 
     @Column(nullable = false, length = 50)
@@ -45,7 +45,7 @@ public class User implements Serializable {
     @Column(nullable = false, length = 100)
     private String passwordHash;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 11)
     private String CPF;
 
     @Column(nullable = false, length = 20)
