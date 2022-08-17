@@ -15,15 +15,14 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(UUID id, String userName, String firstName, String lastName, int age, String passwordHash, String CPF, String salt) {
+    public User(UUID id, String userName, String firstName, String lastName, int age, String password, String CPF, String salt) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.CPF = CPF;
-        this.salt = salt;
     }
 
     @Id
@@ -43,13 +42,11 @@ public class User implements Serializable {
     private int age;
 
     @Column(nullable = false, length = 100)
-    private String passwordHash;
+    private String password;
 
     @Column(nullable = false, length = 11)
     private String CPF;
 
-    @Column(nullable = false, length = 20)
-    private String salt;
 
     @OneToMany(
             mappedBy = "user",
@@ -97,12 +94,12 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String passwordHash) {
+        this.password = passwordHash;
     }
 
     public String getCPF() {
@@ -113,11 +110,5 @@ public class User implements Serializable {
         this.CPF = CPF;
     }
 
-    public String getSalt() {
-        return salt;
-    }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
 }
