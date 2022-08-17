@@ -14,11 +14,11 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(UUID id, String title, int year, int pageNumber) {
+    public Book(UUID id, String title, int year, int numberOfPages) {
         this.id = id;
         this.title = title;
         this.year = year;
-        this.pageNumber = pageNumber;
+        this.numberOfPages = numberOfPages;
     }
 
     @Id
@@ -28,15 +28,15 @@ public class Book implements Serializable {
     @Column(nullable = false, length = 50)
     private String title;
 
-    @Column(length = 4)
+    @Column(name="`year`",length = 4)
     private int year;
 
     @Column(length = 4)
-    private int pageNumber;
+    private int numberOfPages;
 
     @ManyToMany
     @JoinTable(
-            name = "AUTHOR_BOOKS",
+            name = "AUTHOR_BOOK",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
@@ -66,11 +66,11 @@ public class Book implements Serializable {
         this.year = year;
     }
 
-    public int getPageNumber() {
-        return pageNumber;
+    public int getNumberOfPages() {
+        return numberOfPages;
     }
 
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
     }
 }
