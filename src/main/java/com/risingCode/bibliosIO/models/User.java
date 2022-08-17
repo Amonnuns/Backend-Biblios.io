@@ -15,14 +15,16 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(UUID id, String userName, String firstName, String lastName, int age, String password, String CPF, String salt) {
-        this.id = id;
+    public User(String userName, String firstName,
+                String lastName, int age, String password,
+                String CPF, Boolean enabled) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.password = password;
         this.CPF = CPF;
+        this.enabled = enabled;
     }
 
     @Id
@@ -46,6 +48,9 @@ public class User implements Serializable {
 
     @Column(nullable = false, length = 11)
     private String CPF;
+
+    @Column(nullable = false)
+    private Boolean enabled;
 
 
     @OneToMany(
@@ -109,6 +114,13 @@ public class User implements Serializable {
     public void setCPF(String CPF) {
         this.CPF = CPF;
     }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;}
 
 
 }
