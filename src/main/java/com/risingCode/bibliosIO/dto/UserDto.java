@@ -34,4 +34,60 @@ public class UserDto {
             message = "The CPF can't be more than 11 characters long")
     private String CPF;
 
+    public UserDto(String userName, String firstName, String lastName, int age, String password, String CPF) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.password = password;
+        this.CPF = CPF;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
+    }
 }
