@@ -24,6 +24,12 @@ public class Librarian implements Serializable {
     @Column(nullable = false, length = 50)
     private String librarianName;
 
+    @Column(nullable = false, length = 20)
+    private String userName;
+
+    @Column(nullable = false, length = 100)
+    private String password;
+
     public UUID getId() {
         return id;
     }
