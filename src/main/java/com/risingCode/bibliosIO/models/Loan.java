@@ -38,7 +38,7 @@ public class Loan implements Serializable{
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "book_rented")
+    @JoinColumn(name = "book_id")
     private Book book;
 
     public UUID getId() {

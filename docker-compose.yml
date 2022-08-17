@@ -1,0 +1,29 @@
+version: "3"
+services:
+  postgres:
+    container_name: postgresBiblios
+    image: postgres
+    environment:
+      POSTGRES_USER: bibliosuser
+      POSTGRES_PASSWORD: bibliospass
+      POSTGRES_DB: library
+      PGDATA: /data/postgres
+    networks:
+      - bibliosNetwork
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadminBiblios
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    networks:
+      - bibliosNetwork
+    ports:
+      - "5050:80"
+networks:
+  bibliosNetwork:
+    driver: bridge
