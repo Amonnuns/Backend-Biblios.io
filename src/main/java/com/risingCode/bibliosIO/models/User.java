@@ -15,10 +15,10 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String userName, String firstName,
+    public User(String username, String firstName,
                 String lastName, int age, String password,
                 String CPF, Boolean enabled) {
-        this.userName = userName;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -32,7 +32,7 @@ public class User implements Serializable {
     private UUID id;
 
     @Column(nullable = false, length = 20)
-    private String userName;
+    private String username;
 
     @Column(nullable = false, length = 50)
     private String firstName;
@@ -49,7 +49,7 @@ public class User implements Serializable {
     @Column(nullable = false, length = 11)
     private String CPF;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean enabled;
 
 
@@ -68,11 +68,11 @@ public class User implements Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getFirstName() {

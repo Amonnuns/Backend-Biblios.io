@@ -1,6 +1,7 @@
 package com.risingCode.bibliosIO.dto;
 
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -9,7 +10,7 @@ public class UserDto {
     @NotBlank
     @Size(max = 20,
             message = "The username can't be more than 10 characters long")
-    private String userName;
+    private String username;
 
     @NotBlank
     @Size(max = 20,
@@ -20,8 +21,7 @@ public class UserDto {
             message = "The last Name can't be more than 50 characters long")
     private String lastName;
 
-    @Size(max=3,
-            message = "The age can't be more than 3 characters long")
+    @Max(value = 110)
     private int age;
 
     @NotBlank
@@ -34,8 +34,8 @@ public class UserDto {
             message = "The CPF can't be more than 11 characters long")
     private String CPF;
 
-    public UserDto(String userName, String firstName, String lastName, int age, String password, String CPF) {
-        this.userName = userName;
+    public UserDto(String username, String firstName, String lastName, int age, String password, String CPF) {
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -44,11 +44,11 @@ public class UserDto {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getFirstName() {
