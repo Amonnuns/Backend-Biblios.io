@@ -2,6 +2,7 @@ package com.risingCode.bibliosIO.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,6 +47,7 @@ public class User implements Serializable {
     @Column(nullable = false, length = 100)
     private String password;
 
+    @Size(min = 11, max = 11, message = "CPF can't be less or more than 11 digits")
     @Column(nullable = false, length = 11)
     private String CPF;
 
