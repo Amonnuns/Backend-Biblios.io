@@ -38,7 +38,7 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         Optional<User> optionalUser = userRepository
-                .findByUserName(userName);
+                .findByUsername(userName);
 
         assertThat(optionalUser)
                 .isPresent()
@@ -63,7 +63,7 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         Optional<User> optionalUser = userRepository
-                .findByUserNameAndPassword(userName, password);
+                .findByUsernameAndPassword(userName, password);
 
         assertThat(optionalUser)
                 .isPresent()
