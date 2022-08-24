@@ -9,23 +9,24 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_USER")
-public class User implements Serializable {
+@Table(name = "TB_READER")
+public class Reader implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public User() {
+    public Reader() {
     }
 
-    public User(String username, String firstName,
-                String lastName, int age, String password,
-                String CPF, Boolean enabled) {
+    public Reader(String username, String firstName,
+                  String lastName, int age, String password,
+                  String CPF, String email, Boolean enabled) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
         this.password = password;
-        this.CPF = CPF;
+        this.email = email;
         this.enabled = enabled;
+        this.age = age;
+        this.CPF = CPF;
     }
 
     @Id
@@ -51,12 +52,15 @@ public class User implements Serializable {
     @Column(nullable = false, length = 11)
     private String CPF;
 
+    @Column(nullable = false, length=70)
+    private String email;
+
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean enabled;
 
 
     @OneToMany(
-            mappedBy = "user",
+            mappedBy = "reader",
             cascade = CascadeType.ALL
     )
     private Set<Review> reviews = new HashSet<>();
@@ -115,6 +119,14 @@ public class User implements Serializable {
 
     public void setCPF(String CPF) {
         this.CPF = CPF;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Boolean getEnabled() {
