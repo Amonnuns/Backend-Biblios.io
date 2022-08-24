@@ -2,8 +2,8 @@ package com.risingCode.bibliosIO.services;
 
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
 import com.risingCode.bibliosIO.exceptions.UserAlreadyCreatedException;
-import com.risingCode.bibliosIO.models.User;
-import com.risingCode.bibliosIO.repository.UserRepository;
+import com.risingCode.bibliosIO.models.Reader;
+import com.risingCode.bibliosIO.repository.ReaderRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,34 +12,34 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class ReaderService {
 
-    private final UserRepository userRepository;
+    private final ReaderRepository readerRepository;
     private final PasswordEncoder encoder;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder encoder) {
-        this.userRepository = userRepository;
+    public ReaderService(ReaderRepository readerRepository, PasswordEncoder encoder) {
+        this.readerRepository = readerRepository;
         this.encoder = encoder;
     }
 
-    public User registerUser(User user){
+    public Reader registerReader(Reader reader){
 
-        Optional<User> myUser = userRepository
-                .findByUsername(user.getUserName());
+        Optional<Reader> myUser = readerRepository
+                .findByUsername(reader.getUserName());
 
         if (myUser.isPresent())
             throw new UserAlreadyCreatedException();
 
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setEnabled(true);
+        reader.setPassword(encoder.encode(reader.getPassword()));
+        reader.setEnabled(true);
 
-        return userRepository.save(user);
+        return readerRepository.save(reader);
     }
 
-    public ResponseEntity<Boolean> authenticateUser(UserLoginFormDto userLoginForm){
+    public ResponseEntity<Boolean> authenticateReader(UserLoginFormDto userLoginForm){
 
-        Boolean authenticated = userRepository
+        Boolean authenticated = readerRepository
                 .findByUsername(userLoginForm.getUserName())
                 .map(user -> encoder.matches(userLoginForm.getPassword(),
                             user.getPassword()))

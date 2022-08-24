@@ -35,7 +35,7 @@ public class Loan implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Reader reader;
 
     @OneToOne
     @JoinColumn(name = "book_id")
@@ -73,12 +73,12 @@ public class Loan implements Serializable{
         this.state = state;
     }
 
-    public User getUser() {
-        return user;
+    public Reader getUser() {
+        return reader;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Reader reader) {
+        this.reader = reader;
     }
 
     public Book getBook() {

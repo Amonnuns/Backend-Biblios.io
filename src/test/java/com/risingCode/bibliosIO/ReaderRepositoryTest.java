@@ -1,7 +1,7 @@
 package com.risingCode.bibliosIO;
 
-import com.risingCode.bibliosIO.models.User;
-import com.risingCode.bibliosIO.repository.UserRepository;
+import com.risingCode.bibliosIO.models.Reader;
+import com.risingCode.bibliosIO.repository.ReaderRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,38 +12,40 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Optional;
 
 @DataJpaTest
-public class UserRepositoryTest {
+public class ReaderRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private ReaderRepository readerRepository;
 
     @AfterEach
     void tearDown(){
-        userRepository.deleteAll();
+        readerRepository.deleteAll();
     }
 
     @Test
     void mustFindUserByUserName(){
 
         String userName = "userTest";
-        String firstName = "user";
+        String firstName = "reader";
         String password = "passwordTest";
         String cpf = "XXXXXXXXXXX";
+        String email = "mytestmail@email.com";
         Boolean enabled = true;
 
-        User user = new User(userName, firstName,
+        Reader reader = new Reader(userName, firstName,
                 null,0,
-                password, cpf, enabled);
+                password, cpf,
+                email, enabled);
 
-        userRepository.save(user);
+        readerRepository.save(reader);
 
-        Optional<User> optionalUser = userRepository
+        Optional<Reader> optionalUser = readerRepository
                 .findByUsername(userName);
 
         assertThat(optionalUser)
                 .isPresent()
                 .hasValueSatisfying(u -> assertThat(u)
-                        .isEqualTo(user));
+                        .isEqualTo(reader));
 
     }
 
@@ -51,24 +53,26 @@ public class UserRepositoryTest {
     void mustFindUserByUserNameAndPassword(){
 
         String userName = "userTest";
-        String firstName = "user";
+        String firstName = "reader";
         String password = "passwordTest";
         String cpf = "XXXXXXXXXXX";
+        String email = "mytestmail@email.com";
         Boolean enabled = true;
 
-        User user = new User(userName, firstName,
+        Reader reader = new Reader(userName, firstName,
                 null,0,
-                password, cpf, enabled);
+                password, cpf,
+                email, enabled);
 
-        userRepository.save(user);
+        readerRepository.save(reader);
 
-        Optional<User> optionalUser = userRepository
+        Optional<Reader> optionalUser = readerRepository
                 .findByUsernameAndPassword(userName, password);
 
         assertThat(optionalUser)
                 .isPresent()
                 .hasValueSatisfying(u -> assertThat(u)
-                        .isEqualTo(user));
+                        .isEqualTo(reader));
 
     }
 

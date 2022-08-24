@@ -1,8 +1,8 @@
 package com.risingCode.bibliosIO.services;
 
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
-import com.risingCode.bibliosIO.models.User;
-import com.risingCode.bibliosIO.repository.UserRepository;
+import com.risingCode.bibliosIO.models.Reader;
+import com.risingCode.bibliosIO.repository.ReaderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,66 +19,67 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.when;
 
-class UserServiceTest {
+class ReaderServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    private ReaderRepository readerRepository;
 
     @Mock
     private PasswordEncoder encoder;
 
     @Captor
-    private ArgumentCaptor<User> userArgumentCaptor;
+    private ArgumentCaptor<Reader> readerArgumentCaptor;
 
-    private UserService underTest;
+    private ReaderService underTest;
 
-    private User user;
+    private Reader reader;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        underTest = new UserService(userRepository, encoder);
+        underTest = new ReaderService(readerRepository, encoder);
 
         String username = "teste";
         String firstName = "MyTest";
         int age = 30;
         String cpf = "13244343208";
         String password = "testepass";
+        String email = "mytestmail@email.com";
 
-        this.user = new User(username,firstName,null,
-                age,password,cpf,true);
+        this.reader = new Reader(username,firstName,null,
+                age,password,
+                cpf, email,true);
 
     }
 
     @Test
     void registerUserWhoDoesntExist() {
 
-        Example<User> userExample = Example.of(user);
+        Example<Reader> userExample = Example.of(reader);
 
         //given
-        given(userRepository
-                .findByUsername(user.getUserName())
+        given(readerRepository
+                .findByUsername(reader.getUserName())
         ).willReturn(Optional.empty());
 
         //when
-        underTest.registerUser(user);
+        underTest.registerReader(reader);
 
         //then
-        then(userRepository).should()
-                .save(userArgumentCaptor.capture());
+        then(readerRepository).should()
+                .save(readerArgumentCaptor.capture());
 
-        User userArgumentCaptorValue = userArgumentCaptor.getValue();
+        Reader readerArgumentCaptorValue = readerArgumentCaptor.getValue();
 
-        assertThat(userArgumentCaptorValue).isEqualTo(user);
+        assertThat(readerArgumentCaptorValue).isEqualTo(reader);
 
 
     }
 
 
     @Test
-    void authenticateUser() {
+    void authenticateReader() {
 
         String username = "teste";
         String password = "testepass";
@@ -86,12 +87,12 @@ class UserServiceTest {
         UserLoginFormDto userLoginForm = new UserLoginFormDto(username, password);
 
         //given
-        given(userRepository.findByUsername(user.getUserName()))
-                .willReturn(Optional.of(user));
-        given(encoder.matches(password,user.getPassword())).willReturn(true);
+        given(readerRepository.findByUsername(reader.getUserName()))
+                .willReturn(Optional.of(reader));
+        given(encoder.matches(password, reader.getPassword())).willReturn(true);
 
 
-        assertThat(underTest.authenticateUser(userLoginForm))
+        assertThat(underTest.authenticateReader(userLoginForm))
                 .isEqualTo(ResponseEntity.status(HttpStatus.ACCEPTED).body(true));
     }
 }
