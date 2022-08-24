@@ -10,11 +10,15 @@ public class Librarian implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Librarian(){}
+    public Librarian() {
+    }
 
-    public Librarian(UUID id, String librarianName){
-        this.id = id;
-        this.librarianName = librarianName;
+    public Librarian(String firstName, String username, String password, Boolean enabled, String roleDescription) {
+        this.firstName = firstName;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.roleDescription = roleDescription;
     }
 
     @Id
@@ -22,13 +26,19 @@ public class Librarian implements Serializable {
     private UUID id;
 
     @Column(nullable = false, length = 50)
-    private String librarianName;
+    private String firstName;
 
     @Column(nullable = false, length = 20)
-    private String userName;
+    private String username;
 
     @Column(nullable = false, length = 100)
     private String password;
+
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean enabled;
+
+    @Column( length = 70)
+    private String roleDescription;
 
     public UUID getId() {
         return id;
@@ -38,12 +48,43 @@ public class Librarian implements Serializable {
         this.id = id;
     }
 
-    public String getLibrarianName() {
-        return librarianName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setLibrarianName(String librarianName) {
-        this.librarianName = librarianName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
 }
