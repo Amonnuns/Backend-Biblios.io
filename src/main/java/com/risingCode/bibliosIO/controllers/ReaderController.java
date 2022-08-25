@@ -6,11 +6,15 @@ import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Reader;
 import com.risingCode.bibliosIO.services.ReaderService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.awt.print.Pageable;
 import java.util.UUID;
 
 @RestController
@@ -37,8 +41,12 @@ public class ReaderController {
     public ResponseEntity<Boolean> authenticateReader(@Valid @RequestBody
                                                        UserLoginFormDto userLoginForm){
 
-        ResponseEntity<Boolean> answer = readerService.authenticateReader(userLoginForm);
-        return answer;
+        Boolean authenticated = readerService.authenticateReader(userLoginForm);
+
+        if (!authenticated)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(true);
 
     }
     @GetMapping("/book/{id}")
