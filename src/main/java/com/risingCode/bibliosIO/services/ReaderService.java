@@ -7,11 +7,13 @@ import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Reader;
 import com.risingCode.bibliosIO.repository.BookRepository;
 import com.risingCode.bibliosIO.repository.ReaderRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,18 +45,13 @@ public class ReaderService {
         return readerRepository.save(reader);
     }
 
-    public ResponseEntity<Boolean> authenticateReader(UserLoginFormDto userLoginForm){
+    public Boolean authenticateReader(UserLoginFormDto userLoginForm){
 
-        Boolean authenticated = readerRepository
+        return readerRepository
                 .findByUsername(userLoginForm.getUserName())
                 .map(user -> encoder.matches(userLoginForm.getPassword(),
                             user.getPassword()))
                 .orElse(false);
-
-        if (!authenticated)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(true);
 
     }
 
@@ -62,6 +59,10 @@ public class ReaderService {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(("Book with id" +
                         " %s not found").formatted(id)));
+    }
+
+    public Page<Book> getAllBooks(Pageable pageable){
+        return bookRepository.findAll(pageable);
     }
 
 

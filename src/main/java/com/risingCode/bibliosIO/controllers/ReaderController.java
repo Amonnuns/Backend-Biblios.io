@@ -48,4 +48,13 @@ public class ReaderController {
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(book);
     }
+
+    @GetMapping("/books")
+    public ResponseEntity<Page<Book>> getAllBooks(@PageableDefault(page = 0, size = 10, sort = "numberOfPages",
+                                                                    direction = Sort.Direction.ASC )
+                                                  Pageable pageable){
+        Page<Book> bookPage = readerService.getAllBooks(pageable);
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(bookPage);
+    }
 }
