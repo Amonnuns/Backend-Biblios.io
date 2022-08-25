@@ -58,6 +58,8 @@ public class LibrarianController {
     @GetMapping("/book/{id}")
     public ResponseEntity<Object> getBook(@PathVariable(value = "id")
                                               UUID id){
-        // TODO: 25/08/2022 service method for handling getBook
+        Book book = librarianService.getBook(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(book);
     }
 }

@@ -1,13 +1,12 @@
 package com.risingCode.bibliosIO.services;
 
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
+import com.risingCode.bibliosIO.exceptions.BookNotFoundException;
 import com.risingCode.bibliosIO.exceptions.UserAlreadyCreatedException;
 import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Librarian;
 import com.risingCode.bibliosIO.repository.BookRepository;
 import com.risingCode.bibliosIO.repository.LibrarianRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -55,7 +54,10 @@ public class LibrarianService {
         return bookRepository.save(book);
     }
 
-    public ResponseEntity<Object> getBook(UUID id){
-        // TODO: 25/08/2022 Implement getBook 
+    public Book getBook(UUID id){
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(("Book with id" +
+                        " %s not found").formatted(id)));
+
     }
 }
