@@ -2,17 +2,16 @@ package com.risingCode.bibliosIO.controllers;
 
 import com.risingCode.bibliosIO.dto.UserDTO;
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
+import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Reader;
 import com.risingCode.bibliosIO.services.ReaderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -41,5 +40,12 @@ public class ReaderController {
         ResponseEntity<Boolean> answer = readerService.authenticateReader(userLoginForm);
         return answer;
 
+    }
+    @GetMapping("/book/{id}")
+    public ResponseEntity<Object> getBook(@PathVariable(value = "id")
+                                          UUID id){
+        Book book = readerService.getBook(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(book);
     }
 }

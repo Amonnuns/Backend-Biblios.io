@@ -54,10 +54,5 @@ public class LibrarianService {
         return bookRepository.save(book);
     }
 
-    public Book getBook(UUID id){
-        return bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(("Book with id" +
-                        " %s not found").formatted(id)));
 
-    }
 }

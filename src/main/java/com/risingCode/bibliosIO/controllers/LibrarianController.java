@@ -55,11 +55,6 @@ public class LibrarianController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bookSaved);
     }
-    @GetMapping("/book/{id}")
-    public ResponseEntity<Object> getBook(@PathVariable(value = "id")
-                                              UUID id){
-        Book book = librarianService.getBook(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(book);
-    }
+
+
 }
