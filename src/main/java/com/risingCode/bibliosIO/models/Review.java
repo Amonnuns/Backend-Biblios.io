@@ -26,7 +26,7 @@ public class Review implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Reader reader;
 
     public UUID getId() {
         return id;
@@ -44,12 +44,12 @@ public class Review implements Serializable {
         this.comment = comment;
     }
 
-    public User getUser() {
-        return user;
+    public Reader getUser() {
+        return reader;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Reader reader) {
+        this.reader = reader;
     }
 
 

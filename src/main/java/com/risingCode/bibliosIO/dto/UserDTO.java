@@ -5,7 +5,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserDto {
+public class UserDTO {
 
     @NotBlank
     @Size(max = 20,
@@ -34,7 +34,7 @@ public class UserDto {
             message = "The CPF can't be more than 11 characters long")
     private String CPF;
 
-    public UserDto(String username, String firstName, String lastName, int age, String password, String CPF) {
+    public UserDTO(String username, String firstName, String lastName, int age, String password, String CPF) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

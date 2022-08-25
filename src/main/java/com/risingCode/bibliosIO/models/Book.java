@@ -31,7 +31,7 @@ public class Book implements Serializable {
     @Column(name="`year`",length = 4)
     private int year;
 
-    @Column(length = 4)
+    @Column(nullable = false, length = 4)
     private int numberOfPages;
 
     @ManyToMany
@@ -72,5 +72,13 @@ public class Book implements Serializable {
 
     public void setNumberOfPages(int numberOfPages) {
         this.numberOfPages = numberOfPages;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 }
