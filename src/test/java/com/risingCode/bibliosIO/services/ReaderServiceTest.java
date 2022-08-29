@@ -2,6 +2,7 @@ package com.risingCode.bibliosIO.services;
 
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
 import com.risingCode.bibliosIO.models.Reader;
+import com.risingCode.bibliosIO.repository.BookRepository;
 import com.risingCode.bibliosIO.repository.ReaderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,9 @@ class ReaderServiceTest {
     private ReaderRepository readerRepository;
 
     @Mock
+    private BookRepository bookRepository;
+
+    @Mock
     private PasswordEncoder encoder;
 
     @Captor
@@ -38,7 +42,7 @@ class ReaderServiceTest {
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        underTest = new ReaderService(readerRepository, encoder);
+        underTest = new ReaderService(readerRepository, bookRepository, encoder);
 
         String username = "teste";
         String firstName = "MyTest";
