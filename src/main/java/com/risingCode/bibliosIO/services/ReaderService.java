@@ -3,17 +3,19 @@ package com.risingCode.bibliosIO.services;
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
 import com.risingCode.bibliosIO.exceptions.BookNotFoundException;
 import com.risingCode.bibliosIO.exceptions.UserAlreadyCreatedException;
+import com.risingCode.bibliosIO.models.Author;
 import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Reader;
+import com.risingCode.bibliosIO.models.Review;
+import com.risingCode.bibliosIO.repository.AuthorRepository;
 import com.risingCode.bibliosIO.repository.BookRepository;
 import com.risingCode.bibliosIO.repository.ReaderRepository;
+import com.risingCode.bibliosIO.repository.ReviewRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,17 +23,21 @@ import java.util.UUID;
 public class ReaderService {
 
     private final ReaderRepository readerRepository;
+    private final ReviewRepository reviewRepository;
+    private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     private final PasswordEncoder encoder;
 
 
-    public ReaderService(ReaderRepository readerRepository, BookRepository bookRepository, PasswordEncoder encoder) {
+    public ReaderService(ReaderRepository readerRepository, ReviewRepository reviewRepository, AuthorRepository authorRepository, BookRepository bookRepository, PasswordEncoder encoder) {
         this.readerRepository = readerRepository;
+        this.reviewRepository = reviewRepository;
+        this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.encoder = encoder;
     }
 
-    public Reader registerReader(Reader reader){
+    public Reader  registerReader(Reader reader){
 
         Optional<Reader> myUser = readerRepository
                 .findByUsername(reader.getUserName());
@@ -63,6 +69,14 @@ public class ReaderService {
 
     public Page<Book> getAllBooks(Pageable pageable){
         return bookRepository.findAll(pageable);
+    }
+
+    public Page<Author> getAllAuthors(Pageable pageable) {
+        return authorRepository.findAll(pageable);
+    }
+
+    public Review sendReview(Review review){
+        return reviewRepository.save(review);
     }
 
 
