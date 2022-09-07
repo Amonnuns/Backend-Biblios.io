@@ -2,11 +2,13 @@ package com.risingCode.bibliosIO.controllers;
 
 import com.risingCode.bibliosIO.dto.UserDTO;
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
+import com.risingCode.bibliosIO.models.Author;
 import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Reader;
 import com.risingCode.bibliosIO.services.ReaderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.awt.print.Pageable;
 import java.util.UUID;
 
 @RestController
@@ -49,7 +50,7 @@ public class ReaderController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(true);
 
     }
-    @GetMapping("/book/{id}")
+    @GetMapping("/books/{id}")
     public ResponseEntity<Object> getBook(@PathVariable(value = "id")
                                           UUID id){
         Book book = readerService.getBook(id);
@@ -64,5 +65,15 @@ public class ReaderController {
         Page<Book> bookPage = readerService.getAllBooks(pageable);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(bookPage);
+    }
+
+    @GetMapping("/authors")
+    public ResponseEntity<Page<Author>> getAllAuthors(@PageableDefault(page = 0, size = 10,
+            sort = "firstName", direction = Sort.Direction.ASC ) Pageable pageable){
+
+        Page<Author> authorPage = readerService.getAllAuthors(pageable);
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(authorPage);
+
     }
 }
