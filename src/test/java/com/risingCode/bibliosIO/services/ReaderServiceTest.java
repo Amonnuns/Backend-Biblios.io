@@ -2,8 +2,10 @@ package com.risingCode.bibliosIO.services;
 
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
 import com.risingCode.bibliosIO.models.Reader;
+import com.risingCode.bibliosIO.repository.AuthorRepository;
 import com.risingCode.bibliosIO.repository.BookRepository;
 import com.risingCode.bibliosIO.repository.ReaderRepository;
+import com.risingCode.bibliosIO.repository.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -30,6 +32,12 @@ class ReaderServiceTest {
     private BookRepository bookRepository;
 
     @Mock
+    private AuthorRepository authorRepository;
+
+    @Mock
+    private ReviewRepository reviewRepository;
+
+    @Mock
     private PasswordEncoder encoder;
 
     @Captor
@@ -42,7 +50,7 @@ class ReaderServiceTest {
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        underTest = new ReaderService(readerRepository, bookRepository, encoder);
+        underTest = new ReaderService(readerRepository, reviewRepository, authorRepository, bookRepository, encoder);
 
         String username = "teste";
         String firstName = "MyTest";
@@ -70,7 +78,7 @@ class ReaderServiceTest {
         //when
         underTest.registerReader(reader);
 
-        //then
+        //then   
         then(readerRepository).should()
                 .save(readerArgumentCaptor.capture());
 
