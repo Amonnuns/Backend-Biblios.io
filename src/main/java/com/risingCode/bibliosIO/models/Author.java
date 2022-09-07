@@ -1,5 +1,9 @@
 package com.risingCode.bibliosIO.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -8,6 +12,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "TB_AUTHOR")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Author implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,6 +64,13 @@ public class Author implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public Set<Book> getBooksWritten() {
+        return booksWritten;
+    }
+
+    public void addBook(Book book){
+        booksWritten.add(book);
     }
 }
 
