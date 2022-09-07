@@ -1,7 +1,6 @@
 package com.risingCode.bibliosIO.repository;
 
 import com.risingCode.bibliosIO.models.Librarian;
-import com.risingCode.bibliosIO.models.Reader;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
