@@ -1,5 +1,8 @@
 package com.risingCode.bibliosIO.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -8,6 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name="TB_BOOKS")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Book implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +31,7 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String title;
 
     @Column(name="`year`",length = 4)
@@ -34,7 +40,14 @@ public class Book implements Serializable {
     @Column(nullable = false, length = 4)
     private int numberOfPages;
 
-    @ManyToMany
+    @OneToMany(
+            mappedBy = "book",
+            cascade = CascadeType.ALL
+    )
+    private Set<Review> reviews = new HashSet<>();
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "AUTHOR_BOOK",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -78,7 +91,11 @@ public class Book implements Serializable {
         return authors;
     }
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
+    public void addAuthors(Author author) {
+        authors.add(author);
+    }
+
+    public void addReview(Review review){
+        reviews.add(review);
     }
 }
