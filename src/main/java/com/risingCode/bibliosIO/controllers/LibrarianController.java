@@ -1,8 +1,10 @@
 package com.risingCode.bibliosIO.controllers;
 
+import com.risingCode.bibliosIO.dto.AuthorDTO;
 import com.risingCode.bibliosIO.dto.BookDTO;
 import com.risingCode.bibliosIO.dto.LibrarianDTO;
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
+import com.risingCode.bibliosIO.models.Author;
 import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Librarian;
 import com.risingCode.bibliosIO.services.LibrarianService;
@@ -12,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/v1/librarian")
@@ -49,11 +50,19 @@ public class LibrarianController {
     @PostMapping("/book")
     public ResponseEntity<Book> registerBook(@Valid @RequestBody
                                                BookDTO bookDTO){
-        var book = new Book();
-        BeanUtils.copyProperties(bookDTO, book);
-        Book bookSaved = librarianService.registerBook(book);
+
+        Book bookSaved = librarianService.registerBook(bookDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bookSaved);
+    }
+
+    @PostMapping("/author")
+    public ResponseEntity<Author> registerAuthor(@Valid @RequestBody
+                                                 AuthorDTO authorDTO){
+
+        Author authorSaved = librarianService.registerAuthor(authorDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authorSaved);
     }
 
 

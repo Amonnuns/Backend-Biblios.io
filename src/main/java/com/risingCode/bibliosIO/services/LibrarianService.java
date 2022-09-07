@@ -1,27 +1,34 @@
 package com.risingCode.bibliosIO.services;
 
+import com.risingCode.bibliosIO.dto.AuthorDTO;
+import com.risingCode.bibliosIO.dto.BookDTO;
 import com.risingCode.bibliosIO.dto.UserLoginFormDto;
-import com.risingCode.bibliosIO.exceptions.BookNotFoundException;
 import com.risingCode.bibliosIO.exceptions.UserAlreadyCreatedException;
+import com.risingCode.bibliosIO.models.Author;
 import com.risingCode.bibliosIO.models.Book;
 import com.risingCode.bibliosIO.models.Librarian;
+import com.risingCode.bibliosIO.repository.AuthorRepository;
 import com.risingCode.bibliosIO.repository.BookRepository;
 import com.risingCode.bibliosIO.repository.LibrarianRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
+@Service
 public class LibrarianService {
 
     private final LibrarianRepository librarianRepository;
+    private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     private final PasswordEncoder encoder;
 
 
     public LibrarianService(LibrarianRepository librarianRepository,
-                            BookRepository bookRepository, PasswordEncoder encoder) {
+                            AuthorRepository authorRepository, BookRepository bookRepository, PasswordEncoder encoder) {
         this.librarianRepository = librarianRepository;
+        this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.encoder = encoder;
     }
@@ -49,9 +56,27 @@ public class LibrarianService {
                 .orElse(false);
         
     }
+    public Author registerAuthor(AuthorDTO authorDTO){
+        Author newAuthor = new Author();
+        BeanUtils.copyProperties(authorDTO, newAuthor);
 
-    public Book registerBook(Book book){
-        return bookRepository.save(book);
+        Optional<Author> authorFromRep= authorRepository.findByFirstName(newAuthor.getFirstName());
+
+        if (authorFromRep.isPresent())
+            return authorFromRep.get();
+        return authorRepository.save(newAuthor);
+    }
+
+    public Book registerBook(BookDTO book){
+        Book newBook = new Book();
+        BeanUtils.copyProperties(book, newBook, "authors");
+
+        //adding authors to book
+        book.getAuthors().stream()
+                .map(this::registerAuthor)
+                .forEach(newBook::addAuthors);
+
+        return bookRepository.save(newBook);
     }
 
 

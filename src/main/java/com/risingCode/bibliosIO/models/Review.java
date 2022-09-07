@@ -24,6 +24,13 @@ public class Review implements Serializable {
     @Column(length = 300)
     private String comment;
 
+    @Column(length = 5)
+    private int stars;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Reader reader;
